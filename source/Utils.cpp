@@ -94,21 +94,48 @@ bool IsSkeletonAnimationFile(const OPchar* ext) {
 	return false;
 }
 
+void __removeFilename(OPstring* str) {
+	// Get rid of any filenames on the filename path will leave only the directory the file is in
+#ifdef OPIFEX_WINDOWS
+	OPint pos = str->IndexOfLast('\\');
+#else
+	OPint pos = str->IndexOfLast('/');
+#endif
+
+	if (pos != -1) {
+		str->Resize(pos + 1, false);
+	}
+}
+
+void __removeDirectory(OPstring* str) {
+	OPint pos = str->IndexOfLast('\\');
+	if (pos != -1) {
+		str->Init(&str->_data[pos + 1]);
+	}
+
+	pos = str->IndexOfLast('/');
+	if (pos != -1) {
+		str->Init(&str->_data[pos + 1]);
+	}
+}
+
 OPtexture* LoadTexture(const OPchar* dir, const OPchar* tex) {
 	if (tex == NULL) return NULL;
 
 	OPstring outputRoot(dir);
-	// Get rid of any filenames on the filename path will leave only the directory the file is in
-    #ifdef OPIFEX_WINDOWS
-	   OPint pos = outputRoot.IndexOfLast('\\');
-    #else
-	   OPint pos = outputRoot.IndexOfLast('/');
-    #endif
-	if (pos != -1) {
-		outputRoot.Resize(pos + 1, false);
-	}
+	__removeFilename(&outputRoot);
+
 
 	outputRoot.Add(tex);
+	if (!OPfile::Exists(outputRoot.C_Str())) {
+		outputRoot.Init(dir);
+		__removeFilename(&outputRoot);
+
+		OPstring outputTex(tex);
+		__removeDirectory(&outputTex);
+
+		outputRoot.Add(outputTex.C_Str());
+	}
 
 	OPtexture* result = (OPtexture*)OPCMAN.LoadFromFile(outputRoot.C_Str());
 	return result;
