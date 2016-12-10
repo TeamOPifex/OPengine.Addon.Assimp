@@ -1,0 +1,6 @@
+{
+  "id": "assimp",
+  "name": "Assimp",
+  "version": "0.0.1",
+  "OPengine": ">=0.5.1"
+}
