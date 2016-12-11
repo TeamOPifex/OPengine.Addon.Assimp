@@ -94,7 +94,7 @@ bool IsSkeletonAnimationFile(const OPchar* ext) {
 	return false;
 }
 
-void __removeFilename(OPstring* str) {
+void RemoveFilename(OPstring* str) {
 	// Get rid of any filenames on the filename path will leave only the directory the file is in
 #ifdef OPIFEX_WINDOWS
 	OPint pos = str->IndexOfLast('\\');
@@ -107,7 +107,7 @@ void __removeFilename(OPstring* str) {
 	}
 }
 
-void __removeDirectory(OPstring* str) {
+void RemoveDirectory(OPstring* str) {
 	OPint pos = str->IndexOfLast('\\');
 	if (pos != -1) {
 		str->Init(&str->_data[pos + 1]);
@@ -123,16 +123,16 @@ OPtexture* LoadTexture(const OPchar* dir, const OPchar* tex) {
 	if (tex == NULL) return NULL;
 
 	OPstring outputRoot(dir);
-	__removeFilename(&outputRoot);
+	RemoveFilename(&outputRoot);
 
 
 	outputRoot.Add(tex);
 	if (!OPfile::Exists(outputRoot.C_Str())) {
 		outputRoot.Init(dir);
-		__removeFilename(&outputRoot);
+		RemoveFilename(&outputRoot);
 
 		OPstring outputTex(tex);
-		__removeDirectory(&outputTex);
+		RemoveDirectory(&outputTex);
 
 		outputRoot.Add(outputTex.C_Str());
 	}

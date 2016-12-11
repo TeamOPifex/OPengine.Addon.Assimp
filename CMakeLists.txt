@@ -18,15 +18,24 @@ add_opifex_defines()
 if(${OPIFEX_OS_WIN64})
 
 	# copy_to_binaries(${CMAKE_CURRENT_LIST_DIR}/bin/x64/assimp-vc130-mtd.dll)
+	message(STATUS "ASSIMP Trying to add the addon Release Mode: ${OPIFEX_OPTION_RELEASE}")
 
-	target_link_libraries(assimp ${CMAKE_CURRENT_LIST_DIR}/bin/x64/assimp-vc130-mtd.lib)
-	
+	if(${OPIFEX_OPTION_RELEASE})
+
+		target_link_libraries(assimp ${CMAKE_CURRENT_LIST_DIR}/bin/x64/assimp-vc140-mt.lib)
+
+	else()
+
+		target_link_libraries(assimp ${CMAKE_CURRENT_LIST_DIR}/bin/x64/assimp-vc130-mtd.lib)
+
+	endif()
+
 else()
 
 
 endif()
 
-	
-set_source_files_properties( ${APPLICATION_SRC} PROPERTIES LANGUAGE "CXX" ) 
+
+set_source_files_properties( ${APPLICATION_SRC} PROPERTIES LANGUAGE "CXX" )
 
 set_property(TARGET assimp PROPERTY FOLDER "Addons")

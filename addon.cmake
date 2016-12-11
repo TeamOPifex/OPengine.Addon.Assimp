@@ -13,14 +13,16 @@ macro(ADDON_ASSIMP_INCLUDES)
 endmacro(ADDON_ASSIMP_INCLUDES)
 
 macro(ADDON_ASSIMP APPLICATION_TARGET FOLDER)
-	
-    SET(assimp_lib "${ASSIMP_PATH}/bin/x64/assimp-vc130-mtd.lib")
-    SET(assimp_dll "${ASSIMP_PATH}/bin/x64/assimp-vc130-mtd.dll")
 
+  message(STATUS "ASSIMP RELEASE MODE ${OPIFEX_OPTION_RELEASE}")
     if(${OPIFEX_OPTION_RELEASE})
-      SET(BINARY_RELEASE_MODE "release")
+        SET(BINARY_RELEASE_MODE "release")
+        SET(assimp_lib "${ASSIMP_PATH}/bin/x64/assimp-vc140-mt.lib")
+        SET(assimp_dll "${ASSIMP_PATH}/bin/x64/assimp-vc140-mt.dll")
     else()
-      SET(BINARY_RELEASE_MODE "debug")
+        SET(BINARY_RELEASE_MODE "debug")
+        SET(assimp_lib "${ASSIMP_PATH}/bin/x64/assimp-vc130-mtd.lib")
+        SET(assimp_dll "${ASSIMP_PATH}/bin/x64/assimp-vc130-mtd.dll")
     endif()
 
     message(STATUS "APP: ${APPLICATION_TARGET}")
