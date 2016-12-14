@@ -21,13 +21,9 @@ if(${OPIFEX_OS_WIN64})
 	message(STATUS "ASSIMP Trying to add the addon Release Mode: ${OPIFEX_OPTION_RELEASE}")
 
 	if(${OPIFEX_OPTION_RELEASE})
-
-		target_link_libraries(assimp ${CMAKE_CURRENT_LIST_DIR}/bin/x64/assimp-vc140-mt.lib)
-
+		target_link_libraries(assimp ${CMAKE_CURRENT_LIST_DIR}/bin/x64/release/assimp-vc140-mt.lib)
 	else()
-
-		target_link_libraries(assimp ${CMAKE_CURRENT_LIST_DIR}/bin/x64/assimp-vc130-mtd.lib)
-
+		target_link_libraries(assimp ${CMAKE_CURRENT_LIST_DIR}/bin/x64/debug/assimp-vc140-mt.lib)
 	endif()
 
 else()
