@@ -13,8 +13,8 @@ bool IsModelFile(const OPchar* ext);
 bool IsSkeltonFile(const OPchar* ext);
 bool IsSkeletonAnimationFile(const OPchar* ext);
 OPtexture* LoadTexture(const OPchar* dir, const OPchar* tex);
-OPstring* GetFilenameOPM(const OPchar* filename);
-OPstring* GetAbsolutePathOPM(const OPchar* filename);
+OPstring* GetFilenameOPM(const OPchar* filename, bool splitAnims);
+OPstring* GetAbsolutePathOPM(const OPchar* filename, bool splitAnims);
 void RemoveFilename(OPstring* str);
 void RemoveDirectory(OPstring* str);
 

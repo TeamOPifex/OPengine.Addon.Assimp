@@ -81,7 +81,6 @@ struct OPexporter {
 	f32 scale = 1.0f;
 
 	const OPchar* path;
-	OPchar* output;
 
 	Assimp::Importer importer;
 	const aiScene* scene;
@@ -90,7 +89,7 @@ struct OPexporter {
 	ui32 animationCount;
 
 	ui32 features[MAX_FEATURES];
-	OPindexSize indexSize;
+	OPindexSize::Enum indexSize;
 
 	ui32 index = 0;
 	OPfloat* boneWeights;
@@ -119,6 +118,7 @@ struct OPexporter {
 	void Export(AnimationSplit* splitters, ui32 count, const OPchar* output);
 	OPskeleton* LoadSkeleton();
 	OPskeletonAnimationResult LoadAnimations();
+	OPskeletonAnimationResult LoadAnimations(const OPchar* name);
 	OPskeletonAnimationResult LoadAnimations(AnimationSplit* splitters, ui32 count);
 	OPstream* LoadModelStream();
 	AnimationsResult LoadAnimationStreams();

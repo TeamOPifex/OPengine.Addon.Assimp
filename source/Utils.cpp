@@ -141,7 +141,7 @@ OPtexture* LoadTexture(const OPchar* dir, const OPchar* tex) {
 	return result;
 }
 
-OPstring* GetFilenameOPM(const OPchar* filename) {
+OPstring* GetFilenameOPM(const OPchar* filename, bool splitAnims) {
 
 	// Get just the filename
     #ifdef OPIFEX_WINDOWS
@@ -155,13 +155,16 @@ OPstring* GetFilenameOPM(const OPchar* filename) {
 
 	OPstring* outputFilename = OPstring::Create(&ext[1]);
 	outputFilename->Resize(outputFilename->IndexOfLast('.'), false);
+	if (splitAnims && outputFilename->IndexOfLast('_') > -1) {
+		outputFilename->Resize(outputFilename->IndexOfLast('_'), false);
+	}
 	outputFilename->Add(".opm");
 
 	return outputFilename;
 }
 
 
-OPstring* GetAbsolutePathOPM(const OPchar* filename) {
+OPstring* GetAbsolutePathOPM(const OPchar* filename, bool splitAnims) {
 	OPstring outputRoot = OPstring(filename);
     #ifdef OPIFEX_WINDOWS
     	OPint pos = outputRoot.IndexOfLast('\\');
@@ -171,6 +174,7 @@ OPstring* GetAbsolutePathOPM(const OPchar* filename) {
 	if (pos != -1) {
 		outputRoot.Resize(pos + 1, false);
 	}
+
 
 	// Get just the filename
     #ifdef OPIFEX_WINDOWS
@@ -184,6 +188,10 @@ OPstring* GetAbsolutePathOPM(const OPchar* filename) {
 
 	OPstring outputFilename = OPstring(&ext[1]);
 	outputFilename.Resize(outputFilename.IndexOfLast('.'), false);
+
+	if (splitAnims && outputFilename.IndexOfLast('_') > -1) {
+		outputFilename.Resize(outputFilename.IndexOfLast('_'), false);
+	}
 	outputFilename.Add(".opm");
 
 

@@ -356,6 +356,23 @@ OPskeletonAnimationResult OPexporter::LoadAnimations() {
 	return result;
 }
 
+OPskeletonAnimationResult OPexporter::LoadAnimations(const OPchar* name) {
+	OPskeletonAnimationResult result;
+
+	AnimationsResult anims = LoadAnimationStreams();
+
+	result.AnimationsCount = anims.Count;
+	result.Animations = OPALLOC(OPskeletonAnimation*, anims.Count);
+	result.AnimationNames = OPALLOC(OPchar*, anims.Count);
+	for (ui32 i = 0; i < anims.Count; i++) {
+		if (OPloaderOPanimationLoad(anims.Animations[i], &result.Animations[i])) {
+			result.AnimationNames[i] = OPstringCopy(name);// result.Animations[i]->Name;
+		}
+	}
+
+	return result;
+}
+
 OPskeletonAnimationResult OPexporter::LoadAnimations(AnimationSplit* splitters, ui32 count) {
 	OPskeletonAnimationResult result;
 
@@ -560,7 +577,7 @@ void OPexporter::_setBoneData(aiMesh* mesh) {
 	// maxBones is now the largest number of bones per vertex
 	if (maxBones > 4) {
 		OPlogErr("Can't handle more than 4 weights right now");
-		return;
+		//return;
 	}
 
 	boneWeights = (OPfloat*)OPallocZero(sizeof(OPfloat) * mesh->mNumVertices * 4);
@@ -894,7 +911,7 @@ void OPexporter::_write(AnimationSplit* splitters, ui32 count, const OPchar* out
 		//_writeAnimations(outputFinal);
 	}
 
-	OPlog(output);
+	//OPlog(output);
 
 }
 
@@ -937,7 +954,8 @@ OPstream* OPexporter::LoadModelStream() {
 
 	// Index Size SHORT (16) or INT (32)
 	indexSize = OPindexSize::INT;
-	str->UI8((ui8)indexSize);
+	//str->UI8((ui8)indexSize);
+	str->UI8((ui8)4);
 
 	_writeMeshData(str);
 
